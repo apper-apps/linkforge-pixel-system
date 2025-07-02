@@ -1,0 +1,82 @@
+[
+  {
+    "Id": 1,
+    "originalUrl": "https://example.com/very-long-url-that-needs-to-be-shortened-for-better-sharing",
+    "shortCode": "abc123",
+    "customAlias": "my-example",
+    "clicks": 45,
+    "createdAt": "2024-01-15T10:30:00Z",
+    "qrCode": "qr-abc123",
+    "isActive": true
+  },
+  {
+    "Id": 2,
+    "originalUrl": "https://github.com/user/repository/blob/main/README.md",
+    "shortCode": "gh789x",
+    "customAlias": null,
+    "clicks": 123,
+    "createdAt": "2024-01-14T15:45:00Z",
+    "qrCode": "qr-gh789x",
+    "isActive": true
+  },
+  {
+    "Id": 3,
+    "originalUrl": "https://docs.google.com/document/d/1234567890abcdef/edit?usp=sharing",
+    "shortCode": "doc456",
+    "customAlias": "team-docs",
+    "clicks": 78,
+    "createdAt": "2024-01-13T09:20:00Z",
+    "qrCode": "qr-doc456",
+    "isActive": true
+  },
+  {
+    "Id": 4,
+    "originalUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "shortCode": "yt321m",
+    "customAlias": null,
+    "clicks": 234,
+    "createdAt": "2024-01-12T14:15:00Z",
+    "qrCode": "qr-yt321m",
+    "isActive": true
+  },
+  {
+    "Id": 5,
+    "originalUrl": "https://stackoverflow.com/questions/12345678/how-to-implement-url-shortener",
+    "shortCode": "so654n",
+    "customAlias": "stackoverflow-help",
+    "clicks": 56,
+    "createdAt": "2024-01-11T11:30:00Z",
+    "qrCode": "qr-so654n",
+    "isActive": false
+  },
+  {
+    "Id": 6,
+    "originalUrl": "https://medium.com/article/building-a-modern-url-shortener-with-react-and-node",
+    "shortCode": "med987",
+    "customAlias": null,
+    "clicks": 89,
+    "createdAt": "2024-01-10T16:45:00Z",
+    "qrCode": "qr-med987",
+    "isActive": true
+  },
+  {
+    "Id": 7,
+    "originalUrl": "https://www.figma.com/file/abcdef123456/design-system-v2",
+    "shortCode": "fig147",
+    "customAlias": "design-system",
+    "clicks": 167,
+    "createdAt": "2024-01-09T08:20:00Z",
+    "qrCode": "qr-fig147",
+    "isActive": true
+  },
+  {
+    "Id": 8,
+    "originalUrl": "https://calendar.google.com/calendar/embed?src=example@gmail.com",
+    "shortCode": "cal258",
+    "customAlias": null,
+    "clicks": 34,
+    "createdAt": "2024-01-08T13:10:00Z",
+    "qrCode": "qr-cal258",
+    "isActive": true
+  }
+]
