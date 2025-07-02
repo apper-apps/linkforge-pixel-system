@@ -97,10 +97,10 @@ const handleToggleStatus = () => {
               <div className="flex items-center space-x-4 text-sm text-gray-400">
                 <div className="flex items-center space-x-1">
                   <ApperIcon name="MousePointer" className="h-4 w-4" />
-                  <span>{link.clicks}</span>
+<span>{link.clicks}</span>
                 </div>
                 <div className="flex items-center space-x-1">
-<div className="flex items-center space-x-1">
+                  <ApperIcon name="Calendar" className="h-4 w-4" />
                   <span>{format(new Date(link.createdAt), 'MMM d')}</span>
                 </div>
               </div>
