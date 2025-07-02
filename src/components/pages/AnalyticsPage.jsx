@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import AnalyticsOverview from '@/components/organisms/AnalyticsOverview';
-import ApperIcon from '@/components/ApperIcon';
-import Card from '@/components/atoms/Card';
-import linkService from '@/services/api/linkService';
-import { format, startOfWeek, endOfWeek, eachDayOfInterval } from 'date-fns';
-
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { eachDayOfInterval, endOfWeek, format, startOfWeek } from "date-fns";
+import Chart from "react-apexcharts";
+import ApperIcon from "@/components/ApperIcon";
+import AnalyticsOverview from "@/components/organisms/AnalyticsOverview";
+import Card from "@/components/atoms/Card";
+import linkService from "@/services/api/linkService";
 const AnalyticsPage = () => {
   const [timeRange, setTimeRange] = useState('7d');
   const [data, setData] = useState([]);
@@ -90,7 +90,7 @@ const AnalyticsPage = () => {
       {/* Main Analytics Overview */}
       <AnalyticsOverview />
 
-      {/* Additional Charts and Insights */}
+{/* Additional Charts and Insights */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Click Trends Chart */}
         <motion.div
@@ -103,22 +103,7 @@ const AnalyticsPage = () => {
               <h3 className="text-xl font-semibold text-white">Click Trends</h3>
               <ApperIcon name="TrendingUp" className="h-5 w-5 text-primary" />
             </div>
-            <div className="space-y-4">
-              {chartData.map((item, index) => (
-                <div key={index} className="flex items-center space-x-4">
-                  <div className="w-16 text-sm text-gray-400">{item.date}</div>
-                  <div className="flex-1 bg-surface/50 rounded-full h-2 relative overflow-hidden">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      animate={{ width: `${(item.clicks / 120) * 100}%` }}
-                      transition={{ delay: index * 0.1, duration: 0.8 }}
-                      className="h-full bg-gradient-to-r from-primary to-accent rounded-full"
-                    />
-                  </div>
-                  <div className="w-12 text-sm text-white text-right">{item.clicks}</div>
-                </div>
-              ))}
-            </div>
+            <ClickTrendsChart data={chartData} />
           </Card>
         </motion.div>
 
@@ -213,8 +198,71 @@ const AnalyticsPage = () => {
             ))}
           </div>
         </Card>
-      </motion.div>
+</motion.div>
     </div>
+  );
+};
+
+// Click Trends Chart Component
+const ClickTrendsChart = ({ data }) => {
+  const chartOptions = {
+    chart: {
+      type: 'area',
+      background: 'transparent',
+      toolbar: { show: false },
+      zoom: { enabled: false }
+    },
+    colors: ['#3B82F6'],
+    stroke: {
+      curve: 'smooth',
+      width: 3
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.7,
+        opacityTo: 0.1,
+        stops: [0, 90, 100]
+      }
+    },
+    xaxis: {
+      categories: data.map(item => item.date),
+      labels: {
+        style: { colors: '#9CA3AF' },
+        rotate: -45
+      },
+      axisBorder: { show: false },
+      axisTicks: { show: false }
+    },
+    yaxis: {
+      labels: { style: { colors: '#9CA3AF' } }
+    },
+    grid: {
+      borderColor: '#374151',
+      strokeDashArray: 3
+    },
+    dataLabels: { enabled: false },
+    tooltip: {
+      theme: 'dark',
+      x: { show: true },
+      y: {
+        formatter: (val) => `${val} clicks`
+      }
+    }
+  };
+
+  return (
+    <Chart
+      options={chartOptions}
+      series={[{
+        name: 'Clicks',
+        data: data.map(item => item.clicks)
+      }]}
+      type="area"
+      height={300}
+height={300}
+    />
   );
 };
 

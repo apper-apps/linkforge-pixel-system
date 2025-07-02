@@ -27,8 +27,13 @@ export const formatNumber = (num) => {
   }
   if (num >= 1000) {
     return (num / 1000).toFixed(1) + 'K';
-  }
+}
   return num.toString();
+};
+
+export const formatPercentage = (num, decimals = 1) => {
+  if (typeof num !== 'number' || isNaN(num)) return '0%';
+  return `${num.toFixed(decimals)}%`;
 };
 
 export const formatUrl = (url, maxLength = 50) => {

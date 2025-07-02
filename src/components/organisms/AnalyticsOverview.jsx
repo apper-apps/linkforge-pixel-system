@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Card from '@/components/atoms/Card';
-import ApperIcon from '@/components/ApperIcon';
-import linkService from '@/services/api/linkService';
-import Loading from '@/components/ui/Loading';
-import Error from '@/components/ui/Error';
-
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import Chart from "react-apexcharts";
+import { formatPercentage } from "@/utils/formatters";
+import ApperIcon from "@/components/ApperIcon";
+import Card from "@/components/atoms/Card";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
+import linkService from "@/services/api/linkService";
 const AnalyticsOverview = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -142,8 +143,210 @@ const AnalyticsOverview = () => {
             ))}
           </div>
         </Card>
-      )}
+)}
+
+      {/* Analytics Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Geographic Distribution */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+        >
+          <Card>
+            <div className="flex items-center space-x-2 mb-6">
+              <ApperIcon name="Globe" className="h-5 w-5 text-primary" />
+              <h3 className="text-xl font-semibold text-white">Geographic Distribution</h3>
+            </div>
+            <GeographicChart data={data} />
+          </Card>
+        </motion.div>
+
+        {/* Device Types */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+        >
+          <Card>
+            <div className="flex items-center space-x-2 mb-6">
+              <ApperIcon name="Smartphone" className="h-5 w-5 text-accent" />
+              <h3 className="text-xl font-semibold text-white">Device Types</h3>
+            </div>
+            <DeviceChart data={data} />
+          </Card>
+        </motion.div>
+
+        {/* Referral Sources */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+        >
+          <Card>
+            <div className="flex items-center space-x-2 mb-6">
+              <ApperIcon name="Share2" className="h-5 w-5 text-warning" />
+              <h3 className="text-xl font-semibold text-white">Referral Sources</h3>
+            </div>
+            <ReferralChart data={data} />
+          </Card>
+        </motion.div>
+      </div>
     </div>
+  );
+};
+
+// Geographic Distribution Chart Component
+const GeographicChart = ({ data }) => {
+  const geoData = linkService.getGeographicData(data);
+  
+  const chartOptions = {
+    chart: {
+      type: 'donut',
+      background: 'transparent',
+      toolbar: { show: false }
+    },
+    colors: ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'],
+    labels: geoData.map(item => item.country),
+    legend: {
+      show: true,
+      position: 'bottom',
+      labels: { colors: '#9CA3AF' },
+      fontSize: '12px'
+    },
+    plotOptions: {
+      pie: {
+        donut: {
+          size: '60%',
+          labels: {
+            show: true,
+            name: { color: '#FFFFFF' },
+            value: { 
+              color: '#FFFFFF',
+              formatter: (val) => formatPercentage(parseFloat(val))
+            },
+            total: {
+              show: true,
+              color: '#FFFFFF',
+              label: 'Total Clicks'
+            }
+          }
+        }
+      }
+    },
+    dataLabels: { enabled: false },
+    tooltip: {
+      theme: 'dark',
+      y: {
+        formatter: (val) => `${val} clicks`
+      }
+    }
+  };
+
+  return (
+    <Chart
+      options={chartOptions}
+      series={geoData.map(item => item.clicks)}
+      type="donut"
+      height={300}
+    />
+  );
+};
+
+// Device Types Chart Component
+const DeviceChart = ({ data }) => {
+  const deviceData = linkService.getDeviceData(data);
+  
+  const chartOptions = {
+    chart: {
+      type: 'bar',
+      background: 'transparent',
+      toolbar: { show: false }
+    },
+    colors: ['#10B981'],
+    xaxis: {
+      categories: deviceData.map(item => item.device),
+      labels: { style: { colors: '#9CA3AF' } }
+    },
+    yaxis: {
+      labels: { style: { colors: '#9CA3AF' } }
+    },
+    grid: {
+      borderColor: '#374151',
+      strokeDashArray: 3
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 4,
+        horizontal: false,
+        columnWidth: '60%'
+      }
+    },
+    dataLabels: { enabled: false },
+    tooltip: {
+      theme: 'dark',
+      y: {
+        formatter: (val) => `${val} clicks`
+      }
+    }
+  };
+
+  return (
+    <Chart
+      options={chartOptions}
+      series={[{
+        name: 'Clicks',
+        data: deviceData.map(item => item.clicks)
+      }]}
+      type="bar"
+      height={300}
+    />
+  );
+};
+
+// Referral Sources Chart Component
+const ReferralChart = ({ data }) => {
+  const referralData = linkService.getReferralData(data);
+  
+  const chartOptions = {
+    chart: {
+      type: 'pie',
+      background: 'transparent',
+      toolbar: { show: false }
+    },
+    colors: ['#F59E0B', '#3B82F6', '#EF4444', '#10B981', '#8B5CF6'],
+    labels: referralData.map(item => item.source),
+    legend: {
+      show: true,
+      position: 'bottom',
+      labels: { colors: '#9CA3AF' },
+      fontSize: '12px'
+    },
+    plotOptions: {
+      pie: {
+        expandOnClick: true
+      }
+    },
+    dataLabels: {
+      enabled: true,
+      style: { colors: ['#FFFFFF'] },
+      formatter: (val) => formatPercentage(parseFloat(val))
+    },
+    tooltip: {
+      theme: 'dark',
+      y: {
+        formatter: (val) => `${val} clicks`
+      }
+    }
+  };
+
+  return (
+    <Chart
+      options={chartOptions}
+      series={referralData.map(item => item.clicks)}
+      type="pie"
+      height={300}
+    />
   );
 };
 

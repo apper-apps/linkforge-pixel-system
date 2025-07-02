@@ -3,6 +3,9 @@ import mockLinks from '@/services/mockData/links.json';
 // Simulate API delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
+// Chart.js needs to be imported but not used directly
+import Chart from 'react-apexcharts';
+
 // In-memory storage to persist changes during session
 let linksData = [...mockLinks];
 
@@ -75,8 +78,39 @@ const linkService = {
       throw new Error('Link not found');
     }
 
-    linksData.splice(index, 1);
+linksData.splice(index, 1);
     return true;
+  },
+
+  // Analytics aggregation methods
+  getGeographicData(links = linksData) {
+    const countries = ['United States', 'United Kingdom', 'Germany', 'France', 'Canada'];
+    const total = links.reduce((sum, link) => sum + link.clicks, 0);
+    
+    return countries.map((country, index) => {
+      const clicks = Math.floor(total * [0.35, 0.25, 0.18, 0.12, 0.10][index]);
+      return { country, clicks };
+    }).filter(item => item.clicks > 0);
+  },
+
+  getDeviceData(links = linksData) {
+    const devices = ['Desktop', 'Mobile', 'Tablet'];
+    const total = links.reduce((sum, link) => sum + link.clicks, 0);
+    
+    return devices.map((device, index) => {
+      const clicks = Math.floor(total * [0.45, 0.42, 0.13][index]);
+      return { device, clicks };
+    }).filter(item => item.clicks > 0);
+  },
+
+  getReferralData(links = linksData) {
+    const sources = ['Direct', 'Social Media', 'Email', 'Search', 'Other'];
+    const total = links.reduce((sum, link) => sum + link.clicks, 0);
+    
+    return sources.map((source, index) => {
+      const clicks = Math.floor(total * [0.40, 0.25, 0.18, 0.12, 0.05][index]);
+      return { source, clicks };
+    }).filter(item => item.clicks > 0);
   }
 };
 
