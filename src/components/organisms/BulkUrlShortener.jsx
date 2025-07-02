@@ -1,10 +1,11 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
-import ApperIcon from '@/components/ApperIcon';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
-import linkService from '@/services/api/linkService';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import { isValidUrl } from "@/utils/validators";
+import ApperIcon from "@/components/ApperIcon";
+import Card from "@/components/atoms/Card";
+import Button from "@/components/atoms/Button";
+import linkService from "@/services/api/linkService";
 
 const BulkUrlShortener = ({ onLinksCreated }) => {
   const [urls, setUrls] = useState('');
@@ -45,7 +46,7 @@ const BulkUrlShortener = ({ onLinksCreated }) => {
     setLoading(true);
     const processedResults = [];
 
-    try {
+try {
       for (const url of urlList) {
         try {
           const link = await linkService.create({ originalUrl: url.trim() });

@@ -13,7 +13,7 @@ const AnalyticsPage = () => {
 
   const loadData = async () => {
     try {
-      setLoading(true);
+setLoading(true);
       const links = await linkService.getAll();
       setData(links);
     } catch (error) {

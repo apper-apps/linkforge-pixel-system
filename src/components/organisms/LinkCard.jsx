@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
-import { format } from 'date-fns';
-import ApperIcon from '@/components/ApperIcon';
-import Button from '@/components/atoms/Button';
-import Card from '@/components/atoms/Card';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import { format } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
+import Card from "@/components/atoms/Card";
+import Button from "@/components/atoms/Button";
 
 const LinkCard = ({ link, onDelete, onUpdate }) => {
   const [copySuccess, setCopySuccess] = useState(false);
@@ -27,13 +27,13 @@ const LinkCard = ({ link, onDelete, onUpdate }) => {
   };
 
   const handleDelete = () => {
-    if (window.confirm('Are you sure you want to delete this link?')) {
+if (window.confirm('Are you sure you want to delete this link?')) {
       onDelete(link.Id);
       toast.success('Link deleted successfully');
     }
   };
 
-  const handleToggleStatus = () => {
+const handleToggleStatus = () => {
     const updatedLink = { ...link, isActive: !link.isActive };
     onUpdate(link.Id, updatedLink);
     toast.success(`Link ${link.isActive ? 'disabled' : 'enabled'} successfully`);
@@ -52,7 +52,7 @@ const LinkCard = ({ link, onDelete, onUpdate }) => {
           <div className="flex items-start justify-between">
             <div className="flex-1 min-w-0">
               <div className="flex items-center space-x-2 mb-1">
-                <h3 className="font-semibold text-white truncate">
+<h3 className="font-semibold text-white truncate">
                   {link.customAlias || link.shortCode}
                 </h3>
                 {!link.isActive && (
@@ -61,7 +61,7 @@ const LinkCard = ({ link, onDelete, onUpdate }) => {
                   </span>
                 )}
               </div>
-              <p className="text-sm text-gray-400 truncate">
+<p className="text-sm text-gray-400 truncate">
                 {link.originalUrl}
               </p>
             </div>
@@ -90,7 +90,7 @@ const LinkCard = ({ link, onDelete, onUpdate }) => {
 
           {/* Short URL */}
           <div className="bg-surface/50 rounded-lg p-3">
-            <div className="flex items-center justify-between">
+<div className="flex items-center justify-between">
               <span className="font-mono text-primary text-sm">
                 {shortUrl}
               </span>
@@ -100,7 +100,7 @@ const LinkCard = ({ link, onDelete, onUpdate }) => {
                   <span>{link.clicks}</span>
                 </div>
                 <div className="flex items-center space-x-1">
-                  <ApperIcon name="Calendar" className="h-4 w-4" />
+<div className="flex items-center space-x-1">
                   <span>{format(new Date(link.createdAt), 'MMM d')}</span>
                 </div>
               </div>
@@ -118,7 +118,7 @@ const LinkCard = ({ link, onDelete, onUpdate }) => {
               <div className="flex items-center justify-center bg-white rounded-lg p-4">
                 <div className="w-32 h-32 bg-gray-200 rounded-lg flex items-center justify-center">
                   <span className="text-gray-500 text-xs text-center">
-                    QR Code<br />
+QR Code<br />
                     {link.shortCode}
                   </span>
                 </div>
@@ -140,7 +140,7 @@ const LinkCard = ({ link, onDelete, onUpdate }) => {
                 size="sm"
                 onClick={handleToggleStatus}
               >
-                <ApperIcon 
+<ApperIcon 
                   name={link.isActive ? "Pause" : "Play"} 
                   className="h-4 w-4 mr-2" 
                 />
@@ -151,7 +151,7 @@ const LinkCard = ({ link, onDelete, onUpdate }) => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => window.open(`/analytics/${link.shortCode}`, '_blank')}
+onClick={() => window.open(`/analytics/${link.shortCode}`, '_blank')}
               >
                 <ApperIcon name="BarChart3" className="h-4 w-4 mr-2" />
                 Analytics
@@ -167,7 +167,7 @@ const LinkCard = ({ link, onDelete, onUpdate }) => {
             </div>
           </div>
         </div>
-      </Card>
+</Card>
     </motion.div>
   );
 };

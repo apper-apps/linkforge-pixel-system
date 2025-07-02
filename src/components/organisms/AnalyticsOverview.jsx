@@ -15,7 +15,7 @@ const AnalyticsOverview = () => {
   const loadAnalytics = async () => {
     try {
       setError('');
-      setLoading(true);
+setLoading(true);
       const links = await linkService.getAll();
       setData(links);
     } catch (err) {

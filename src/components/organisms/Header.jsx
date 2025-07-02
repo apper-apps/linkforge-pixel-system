@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSelector } from 'react-redux';
 import ApperIcon from '@/components/ApperIcon';
 import Navigation from '@/components/molecules/Navigation';
+import Button from '@/components/atoms/Button';
+import { AuthContext } from '@/App';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { logout } = useContext(AuthContext);
+  const { user, isAuthenticated } = useSelector((state) => state.user);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -28,9 +33,25 @@ const Header = () => {
             </h1>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:block">
+{/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-4">
             <Navigation />
+            {isAuthenticated && (
+              <div className="flex items-center space-x-3">
+                <span className="text-sm text-gray-400">
+                  {user?.firstName} {user?.lastName}
+                </span>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={logout}
+                  className="flex items-center space-x-2"
+                >
+                  <ApperIcon name="LogOut" className="h-4 w-4" />
+                  <span>Logout</span>
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -57,8 +78,29 @@ const Header = () => {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden border-t border-gray-800 bg-background"
           >
-            <div className="px-4 py-4 space-y-2">
+<div className="px-4 py-4 space-y-2">
               <Navigation mobile onItemClick={closeMobileMenu} />
+              {isAuthenticated && (
+                <div className="pt-4 border-t border-gray-700">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-400">
+                      {user?.firstName} {user?.lastName}
+                    </span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        logout();
+                        closeMobileMenu();
+                      }}
+                      className="flex items-center space-x-2"
+                    >
+                      <ApperIcon name="LogOut" className="h-4 w-4" />
+                      <span>Logout</span>
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           </motion.div>
         )}

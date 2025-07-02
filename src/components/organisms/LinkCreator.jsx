@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
-import ApperIcon from '@/components/ApperIcon';
-import Button from '@/components/atoms/Button';
-import FormField from '@/components/molecules/FormField';
-import Card from '@/components/atoms/Card';
-import linkService from '@/services/api/linkService';
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { toast } from "react-toastify";
+import { isValidUrl } from "@/utils/validators";
+import ApperIcon from "@/components/ApperIcon";
+import Card from "@/components/atoms/Card";
+import Button from "@/components/atoms/Button";
+import FormField from "@/components/molecules/FormField";
+import linkService from "@/services/api/linkService";
 
 const LinkCreator = ({ onLinkCreated }) => {
   const [formData, setFormData] = useState({
@@ -44,8 +45,7 @@ const LinkCreator = ({ onLinkCreated }) => {
       toast.error('Please enter a valid URL');
       return;
     }
-
-    setLoading(true);
+setLoading(true);
     try {
       const newLink = await linkService.create({
         originalUrl: formData.originalUrl,
@@ -65,7 +65,7 @@ const LinkCreator = ({ onLinkCreated }) => {
     }
   };
 
-  const handleCopy = async () => {
+const handleCopy = async () => {
     if (!createdLink) return;
     
     try {
@@ -114,7 +114,7 @@ const LinkCreator = ({ onLinkCreated }) => {
                 Short Link
               </label>
               <div className="flex items-center space-x-3">
-                <div className="flex-1 bg-background rounded-lg px-4 py-3 font-mono text-primary">
+<div className="flex-1 bg-background rounded-lg px-4 py-3 font-mono text-primary">
                   https://lnk.fge/{createdLink.shortCode}
                 </div>
                 <Button
@@ -134,7 +134,7 @@ const LinkCreator = ({ onLinkCreated }) => {
               <label className="block text-sm font-medium text-gray-300 mb-2">
                 Original URL
               </label>
-              <div className="bg-background rounded-lg px-4 py-3 text-gray-400 truncate">
+<div className="bg-background rounded-lg px-4 py-3 text-gray-400 truncate">
                 {createdLink.originalUrl}
               </div>
             </div>

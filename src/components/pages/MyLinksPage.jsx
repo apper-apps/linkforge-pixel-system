@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import SearchBar from '@/components/molecules/SearchBar';
-import LinkCard from '@/components/organisms/LinkCard';
-import Button from '@/components/atoms/Button';
-import ApperIcon from '@/components/ApperIcon';
-import Loading from '@/components/ui/Loading';
-import Error from '@/components/ui/Error';
-import Empty from '@/components/ui/Empty';
-import linkService from '@/services/api/linkService';
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import ApperIcon from "@/components/ApperIcon";
+import LinkCard from "@/components/organisms/LinkCard";
+import Button from "@/components/atoms/Button";
+import SearchBar from "@/components/molecules/SearchBar";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import linkService from "@/services/api/linkService";
 
 const MyLinksPage = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const MyLinksPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('newest');
 
-  const loadLinks = async () => {
+const loadLinks = async () => {
     try {
       setError('');
       setLoading(true);
@@ -39,7 +39,7 @@ const MyLinksPage = () => {
     setSearchTerm(term);
   };
 
-  const handleDelete = async (linkId) => {
+const handleDelete = async (linkId) => {
     try {
       await linkService.delete(linkId);
       setData(prev => prev.filter(link => link.Id !== linkId));
@@ -48,7 +48,7 @@ const MyLinksPage = () => {
     }
   };
 
-  const handleUpdate = async (linkId, updatedData) => {
+const handleUpdate = async (linkId, updatedData) => {
     try {
       const updatedLink = await linkService.update(linkId, updatedData);
       setData(prev => prev.map(link => 
